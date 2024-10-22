@@ -7,6 +7,7 @@ const sequelize = require('./db.config')
 sequelize.sync().then(() => console.log('database Ready'))
 
 const userEndpoint = require('./routes/users')
+const suratEndpoint = require('./routes/surat')
 const absensiEndpoint = require('./routes/absensi')
 
 const app = express()
@@ -20,6 +21,7 @@ app.use(cookieParser())
 
 app.use('/users', userEndpoint)
 app.use('/absensi', absensiEndpoint)
+app.use('/surat', suratEndpoint)
 app.use('/uploads', express.static('uploads'))
 
 app.listen(port, () => console.log(`running server on port ${port}`))

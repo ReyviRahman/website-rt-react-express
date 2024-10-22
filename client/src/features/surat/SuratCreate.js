@@ -6,12 +6,17 @@ const SuratCreate = () => {
   const [fileKTP , setFileKTP] = useState(null)
   const [fileKK, setFileKK] = useState(null)
 
+  const kirimBerkas = (e) => {
+    e.preventDefault()
+    
+  }
+
   return (
     <>
       <div className='container mx-auto mb-5'>
         <h1 className='text-3xl font-semibold text-center'>Layanan Surat Pengantar RT</h1>
         <div className='flex justify-center mt-3'>
-          <form className='basis-1/2 flex flex-col border border-primary rounded p-5'>
+          <form onSubmit={kirimBerkas} className='basis-1/2 flex flex-col border border-primary rounded p-5'>
             <h1 className='text-2xl text-center font-semibold mb-3'>Masukkan Berkas</h1>
 
             <div className='flex flex-col'>
@@ -87,6 +92,8 @@ const SuratCreate = () => {
                 }} 
               />
             </div>
+
+            <button className='bg-primary hover:bg-primaryHover mt-5 text-white py-2 text-lg font-semibold rounded'>Kirim Berkas</button>
           </form>
         </div>
       </div>
