@@ -1,14 +1,55 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Footer from '../../components/Footer'
+import Swal from 'sweetalert2'
+import useAuth from '../../hooks/useAuth'
+import axios from 'axios'
 
 const SuratCreate = () => {
+  const { auth } = useAuth();
   const [keperluanSurat, setKeperluanSurat] = useState('Surat Pengantar Pembuatan KTP')
   const [fileKTP , setFileKTP] = useState(null)
   const [fileKK, setFileKK] = useState(null)
 
-  const kirimBerkas = (e) => {
+  const kirimBerkas = async (e) => {
     e.preventDefault()
-    
+    const formData = new FormData();
+    formData.append('nik', auth?.nik)
+    formData.append('keperluanSurat', keperluanSurat)
+    formData.append('fileKTP', fileKTP)
+    formData.append('fileKK', fileKK)
+
+    try {
+      Swal.fire({
+        title: 'Mohon Tunggu...',
+        text: 'Sedang mengupload surat...',
+        allowOutsideClick: false,
+        didOpen: () => {
+          Swal.showLoading();
+        }
+      });
+      console.log('ini process env', process.env.REACT_APP_API_URL)
+
+      const response = await axios.post(`${process.env.REACT_APP_API_URL}/surat`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      })
+      Swal.close();
+      Swal.fire({
+        icon: 'success',
+        title: 'Berkas Berhasil dikirim',
+      });
+      console.log('upload berhasil', response.data)
+    } catch (error) {
+      console.error('Error uploading file:', error.response ? error.response.data : error.message)
+
+      Swal.close();
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: error.response?.data?.message || 'Something went wrong',
+      });
+    }
   }
 
   return (

@@ -1,12 +1,59 @@
 const express = require('express')
 const router = express.Router()
 const SuratModel = require('../models/surat')
+const User = require('../models/users')
 const uploadFiles = require('../middleware/uploadFiles')
+const jwt = require('jsonwebtoken');
+const secretKey = 'reyvisacd123';
 
 router.get('/', async (req, res) => {
-  res.status(200).json({
-    metadata: "Get Surat"
-  })
+  try {
+    const surat = await SuratModel.findAll({
+      include: [{
+        model: User,
+        attributes: ['nik', 'nama', 'email', 'alamat'],
+      }]
+    });
+    res.status(200).json({
+      allSurat: surat,
+      metadata: "Get All Surat"
+    })
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    res.status(500).json({ error: 'Terjadi kesalahan saat mengambil data surat.' });
+  }
+})
+
+router.get('/suratuser', async (req, res) => {
+  try {
+    if (req.cookies.cookieToken) {
+      console.log('ini cookie token: ', req.cookies.cookieToken)
+
+      const decoded = jwt.verify(req.cookies.cookieToken, secretKey);
+
+      console.log('ini decoded', decoded)
+      const nik = decoded.nik
+      const surat = await SuratModel.findAll({
+        where: { nik } 
+      });
+  
+      if (surat.length === 0) {
+        return res.status(404).json({ message: 'Data surat tidak ditemukan untuk NIK tersebut.' });
+      }
+  
+      res.status(200).json({
+        allSurat: surat,
+        metadata: "Get Surat"
+      });
+    } else {
+      res.status(401).json({
+        message: "token tidak ada silahkan login kembali"
+      })
+    }
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    res.status(500).json({ error: 'Terjadi kesalahan saat mengambil data surat.' });
+  }
 })
 
 router.post('/', uploadFiles, async (req, res) => {
@@ -20,7 +67,9 @@ router.post('/', uploadFiles, async (req, res) => {
       nik,
       keperluanSurat,
       KTP: fileKTP,
-      KK: fileKK
+      KK: fileKK,
+      status: "Terkirim",
+      keterangan: "Sedang Diproses"
     })
 
     res.status(201).json({

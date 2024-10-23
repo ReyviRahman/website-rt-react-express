@@ -1,14 +1,14 @@
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../db.config');
+const User = require('./users');  // Import model User untuk asosiasi
 
 class Surat extends Model {}
 
 Surat.init({
-  nik: {
-    type: DataTypes.STRING,
+  id: {
+    type: DataTypes.INTEGER,
+    autoIncrement: true,
     primaryKey: true,
-    unique: true,
-    allowNull: false,     // Pastikan NIK harus diisi
   },
   keperluanSurat: {
     type: DataTypes.STRING,
@@ -21,6 +21,20 @@ Surat.init({
   KK: {
     type: DataTypes.STRING,   // Menyimpan path file KK yang diupload
     allowNull: false          // Wajib diisi
+  },
+  nik: {
+    type: DataTypes.STRING,
+    allowNull: false,         // Menentukan nik sebagai foreign key
+    references: {
+      model: User,            // Relasi ke model User
+      key: 'nik'              // Mengacu ke kolom nik di model User
+    }
+  },
+  status: {
+    type: DataTypes.STRING,  // Menyimpan path file KTP yang diupload
+  },
+  keterangan: {
+    type: DataTypes.STRING,  // Menyimpan path file KTP yang diupload
   },
 }, {
   sequelize,

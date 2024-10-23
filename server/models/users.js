@@ -6,8 +6,8 @@ class User extends Model {}
 User.init({
   nik: {
     type: DataTypes.STRING,
-    primaryKey: true,    // Set nik sebagai primary key
-    unique: true,        // Pastikan nilai nik unik
+    primaryKey: true,
+    unique: true,
   },
   nama: {
     type: DataTypes.STRING
