@@ -65,7 +65,7 @@ const Navbar = () => {
 				</NavLink>
 
 				{ auth?.role == "Admin" && (
-					<NavLink to='/dashboardadmin' className={({ isActive }) => `rounded-md py-1 px-5 cursor-pointer transition-all ${ isActive ? 'bg-secondary text-white' : 'hover:bg-secondary'}`}>
+					<NavLink to='/dashboardadmin/admin' className={({ isActive }) => `rounded-md py-1 px-5 cursor-pointer transition-all ${ isActive ? 'bg-secondary text-white' : 'hover:bg-secondary'}`}>
 						Dashboard Admin
 					</NavLink>
 				)}

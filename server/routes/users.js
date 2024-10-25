@@ -114,7 +114,7 @@ router.post('/login', async (req, res) => {
         { expiresIn: '1h' } // Token akan kadaluarsa dalam 1 jam
       );
 
-      res.cookie("cookieToken", jwt.sign({ nik: users.nik, nama: users.nama, role: users.role, profilePic: users.profilePic }, secretKey), { httpOnly: true, maxAge: 30 * 24 * 60 * 60 * 1000});
+      res.cookie("cookieToken", jwt.sign({ nik: users.nik, nama: users.nama, role: users.role, profilePic: users.profilePic }, secretKey), { httpOnly: true, maxAge: 1 * 60 * 60 * 1000});
 
       return res.status(200).json({
         role: users.role,

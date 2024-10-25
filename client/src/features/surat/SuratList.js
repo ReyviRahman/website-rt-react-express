@@ -35,8 +35,8 @@ const SuratList = () => {
 
   return (
     <>
-      <h1 className='text-center text-3xl font-semibold'>Riwayat Pengajuan Surat</h1>
-      <div className='overflow-x-auto mt-4 px-10'> {/* Membungkus tabel dengan div untuk scroll horizontal */}
+      <h1 className='text-center text-3xl font-semibold mt-3'>Riwayat Pengajuan Surat</h1>
+      <div className='overflow-x-auto mt-4 px-10 mb-6'> {/* Membungkus tabel dengan div untuk scroll horizontal */}
         <table className='min-w-full border-collapse border border-gray-300'>
           <thead>
             <tr className='bg-gray-100'>
@@ -57,7 +57,14 @@ const SuratList = () => {
                   year: 'numeric'
                 })}</td>
                 <td className='border border-gray-300 p-2'>{surat.keperluanSurat}</td>
-                <td className='text-center border border-gray-300 p-2'>{surat.status}</td>
+                <td className='text-center border border-gray-300 p-2'><h1 className={`${surat.status === 'Terkirim'
+                  ? 'bg-primary'
+                  : surat.status === 'Ditolak'
+                  ? 'bg-red-500'
+                  : surat.status === 'Diterima'
+                  ? 'bg-green-500'
+                  : ''
+                } text-white rounded inline-block px-3 py-1`}>{surat.status}</h1></td>
                 <td className='text-center border border-gray-300 p-2'>{surat.keterangan}</td>
               </tr>
             ))}
