@@ -11,11 +11,23 @@ const LandingPage = () => {
       </div>
 
       <div className='flex justify-between gap-3 mt-5'>
-        <div className='bg-primary flex-1 px-4 py-2 rounded text-white font-semibold'>
-          <h1>Surat Masuk</h1>
+        <div className='bg-primary flex-1 px-4 py-2 rounded text-white font-semibold flex items-center'>
+          <div className='flex-1'>
+            <h1>Surat Masuk</h1>
+            <h1>0</h1>
+          </div>
+          <span class="material-symbols-outlined text-5xl">
+            upload_file
+          </span>
         </div>
-        <div className='bg-primary flex-1 px-4 py-2 rounded text-white font-semibold'>
-          <h1>Jumlah Penduduk</h1>
+        <div className='bg-primary flex-1 px-4 py-2 rounded text-white font-semibold flex items-center'>
+          <div className='flex-1'>
+            <h1>Jumlah Penduduk</h1>
+            <h1>0</h1>
+          </div>
+          <span class="material-symbols-outlined text-5xl">
+            diversity_3
+          </span>
         </div>
       </div>
 

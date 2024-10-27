@@ -22,14 +22,14 @@ function App() {
         <Route path='/register' element={<Register />} />
         <Route path="/keuangan" element={<Keuangan />} />
 
-        {/* <Route element={<RequireAuth allowedRoles={["Admin"]} />}>
-          <Route path='/dashboardadmin' element={<DashboardAdmin />} />
-        </Route> */}
-        
-        <Route path='dashboardadmin' element={<DashboardAdmin />}>
-          <Route path='admin' element={<LandingPage />} />
-          <Route path='prosessurat' element={<ProsesSurat />} />
+        <Route element={<RequireAuth allowedRoles={["Admin"]} />}>
+          <Route path='dashboardadmin' element={<DashboardAdmin />}>
+            <Route path='admin' element={<LandingPage />} />
+            <Route path='prosessurat' element={<ProsesSurat />} />
+          </Route>
         </Route>
+        
+        
 
         <Route element={<RequireAuth allowedRoles={["User"]} />}>
           <Route path='/suratpengantar' element={<SuratCreate />} />

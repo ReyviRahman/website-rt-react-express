@@ -11,7 +11,7 @@ router.get('/', async (req, res) => {
     const surat = await SuratModel.findAll({
       include: [{
         model: User,
-        attributes: ['nik', 'nama', 'email', 'alamat'],
+        attributes: [ 'nama', 'ttl', 'alamat', 'agama', 'statusPerkawinan'],
       }]
     });
     res.status(200).json({

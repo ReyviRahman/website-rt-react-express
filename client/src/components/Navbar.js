@@ -54,7 +54,7 @@ const Navbar = () => {
   }, [auth, setAuth]);
 
 	return (
-		<header className='sticky top-0 flex justify-between items-center text-white py-4 px-8 bg-primary md:px-32 drop-shadow-md'>
+		<header className='w-full sticky z-10 top-0 flex justify-between items-center text-white py-4 px-8 bg-primary md:px-32 drop-shadow-md'>
 			<Logo />
 			<ul className='hidden xl:flex items-center gap-4 font-semibold text-base'>
 				<NavLink exact='true' to='/' className={({ isActive }) => `rounded-md py-1 px-5 cursor-pointer transition-all ${ isActive ? 'bg-secondary text-white' : 'hover:bg-secondary'}`}>
@@ -122,15 +122,26 @@ const Navbar = () => {
       )}
 			
 			<MdMenu className='lg:hidden block text-3xl cursor-pointer' onClick={() => setIsMenuOpen(!isMenuOpen)}/>
+
+			{ isMenuOpen && (
+				<div className={`absolute xl:hidden top-20 left-0 w-full bg-primary flex flex-col items-center gap-6 font-semibold text-lg transform transition-transform ${isMenuOpen ? "opacity-100" : "opacity-0"}`} style={{transition: "transform 0.3s ease, opacity 0.3s ease"}}>
+					<NavLink to='/'>
+						<li className='list-none w-full text-center p-4 hover:bg-secondary hover:text-white transition-all cursor-pointer'>Beranda</li>
+					</NavLink>
+					<li className='list-none w-full text-center p-4 hover:bg-secondary hover:text-white transition-all cursor-pointer'>Products</li>
+					<li className='list-none w-full text-center p-4 hover:bg-secondary hover:text-white transition-all cursor-pointer'>Explore</li>
+					<li className='list-none w-full text-center p-4 hover:bg-secondary hover:text-white transition-all cursor-pointer'>Contact</li>
+				</div>
+			)}
 			
-			<div className={`absolute xl:hidden top-20 left-0 w-full bg-primary flex flex-col items-center gap-6 font-semibold text-lg transform transition-transform ${isMenuOpen ? "opacity-100" : "opacity-0"}`} style={{transition: "transform 0.3s ease, opacity 0.3s ease"}}>
+			{/* <div className={`absolute xl:hidden top-20 left-0 w-full bg-primary flex flex-col items-center gap-6 font-semibold text-lg transform transition-transform ${isMenuOpen ? "opacity-100" : "opacity-0"}`} style={{transition: "transform 0.3s ease, opacity 0.3s ease"}}>
 				<NavLink to='/'>
 					<li className='list-none w-full text-center p-4 hover:bg-secondary hover:text-white transition-all cursor-pointer'>Beranda</li>
 				</NavLink>
 				<li className='list-none w-full text-center p-4 hover:bg-secondary hover:text-white transition-all cursor-pointer'>Products</li>
 				<li className='list-none w-full text-center p-4 hover:bg-secondary hover:text-white transition-all cursor-pointer'>Explore</li>
 				<li className='list-none w-full text-center p-4 hover:bg-secondary hover:text-white transition-all cursor-pointer'>Contact</li>
-			</div>
+			</div> */}
 		</header>
 	)
 }
