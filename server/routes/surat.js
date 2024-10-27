@@ -5,6 +5,7 @@ const User = require('../models/users')
 const uploadFiles = require('../middleware/uploadFiles')
 const jwt = require('jsonwebtoken');
 const secretKey = 'reyvisacd123';
+const uploadConfig = require('../middleware/uploadConfig')
 
 router.get('/', async (req, res) => {
   try {
@@ -64,7 +65,7 @@ router.get('/detailsurat/:id', async (req, res) => {
   }
 })
 
-router.put('/detailsurat/:id', async (req, res) => {
+router.put('/detailsurat/:id', uploadConfig.single('keterangan'), async (req, res) => {
   try {
     if (req.cookies.cookieToken) {
       const decoded = jwt.verify(req.cookies.cookieToken, secretKey)
@@ -77,7 +78,12 @@ router.put('/detailsurat/:id', async (req, res) => {
         }
 
         surat.status = status
-        surat.keterangan = keterangan
+        if (req.file) {
+          surat.keterangan = req.file.path
+        } else {
+          surat.keterangan = keterangan
+        }
+
         await surat.save()
 
         res.json({
@@ -92,6 +98,37 @@ router.put('/detailsurat/:id', async (req, res) => {
     res.status(500).json({ message: 'Terjadi Kesalahan', error: error.message})
   }
 })
+
+// router.put('/detailsurat/:id', async (req, res) => {
+//   try {
+//     if (req.cookies.cookieToken) {
+//       const decoded = jwt.verify(req.cookies.cookieToken, secretKey)
+//       if (decoded.role === "Admin") {
+//         const suratId = req.params.id
+//         const { status, keterangan } = req.body
+//         const surat = await SuratModel.findByPk(suratId)
+//         if (!surat) {
+//           return res.status(404).json({ message: "Surat TIdak Ditemukan"})
+//         }
+
+//         surat.status = status
+//         surat.keterangan = keterangan
+//         await surat.save()
+
+//         res.json({
+//           message: 'Surat Berhasil Diperbarui',
+//           data: surat
+//         })
+//       }
+//     } else {
+//       return res.status(401).json({error: 'Unauthorized'})
+//     }
+//   } catch (error) {
+//     res.status(500).json({ message: 'Terjadi Kesalahan', error: error.message})
+//   }
+// })
+
+
 
 router.get('/suratuser', async (req, res) => {
   try {
