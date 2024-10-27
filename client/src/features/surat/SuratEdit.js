@@ -1,6 +1,6 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import Swal from 'sweetalert2'
 
 const SuratEdit = () => {
@@ -8,9 +8,49 @@ const SuratEdit = () => {
   const [detailSurat, setDetailSurat] = useState(null)
   const [terimaSurat, setTerimaSurat] = useState(null)
   const [fileBalasan , setFileBalasan] = useState(null)
+  const [keterangan, setKeterangan] = useState('')
+  const navigate = useNavigate()
 
-  const kirimBerkas = () => {
+  const updateSurat = async (e) => {
+    e.preventDefault()
+    try {
+      Swal.fire({
+        title: 'Updating...',
+        text: 'Mohon Tunggu',
+        allowOutsideClick: false,
+        didOpen: () => {
+          Swal.showLoading();
+        }
+      })
+      let statusSurat = "Terkirim"
+      console.log('ini terima surat', terimaSurat)
+      if (terimaSurat) {
+        statusSurat = "Diterima"
+      } else {
+        statusSurat = "Ditolak"
+      }
 
+      const response = await axios.put(`${process.env.REACT_APP_API_URL}/surat/detailsurat/${id}`, {
+        status: statusSurat,
+        keterangan,
+      }, {
+        withCredentials: true // Mengirim cookie (jika API membutuhkan cookie)
+      });
+
+      Swal.fire({
+        icon: 'sucess',
+        title: 'Update Success',
+        text: response.data.message
+      }).then(() => {
+        navigate(-1)
+      })
+    } catch (error) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Failed to Update',
+        text: error.response?.data?.message || 'Terjadi kesalahan saat memperbarui surat',
+      });
+    }
   }
   
   useEffect(() => {
@@ -49,7 +89,7 @@ const SuratEdit = () => {
 
       { detailSurat && (
         <div className='flex justify-center mt-3'>
-          <form onSubmit={kirimBerkas} className='basis-1/2 flex flex-col border border-primary rounded p-5'>
+          <form onSubmit={updateSurat} className='basis-1/2 flex flex-col border border-primary rounded p-5'>
             <h1 className='text-2xl text-center font-semibold mb-3'>Berkas {detailSurat.User.nama}</h1>
 
             <div className='flex flex-col mt-2'>
@@ -208,6 +248,7 @@ const SuratEdit = () => {
                 type='text'
                 name='alasanPenolakan'
                 placeholder='Berikan Alasan Penolakan'
+                onChange={e => setKeterangan(e.target.value)}
               />
             </div>
             )}
