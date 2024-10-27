@@ -9,6 +9,7 @@ import DashboardAdmin from './pages/DashboardAdmin';
 import RequireAuth from './components/RequireAuth';
 import Keuangan from './pages/Keuangan';
 import SuratCreate from './features/surat/SuratCreate'
+import SuratEdit from './features/surat/SuratEdit'
 import SuratList from './features/surat/SuratList'
 import ProsesSurat from './features/admin/prosessurat/ProsesSurat';
 import LandingPage from './features/admin/landingpage/LandingPage';
@@ -26,10 +27,9 @@ function App() {
           <Route path='dashboardadmin' element={<DashboardAdmin />}>
             <Route path='admin' element={<LandingPage />} />
             <Route path='prosessurat' element={<ProsesSurat />} />
+            <Route path='prosessurat/:id' element={<SuratEdit />} />
           </Route>
         </Route>
-        
-        
 
         <Route element={<RequireAuth allowedRoles={["User"]} />}>
           <Route path='/suratpengantar' element={<SuratCreate />} />

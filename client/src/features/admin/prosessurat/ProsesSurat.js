@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Swal from 'sweetalert2'
 import axios from 'axios'
+import { NavLink } from 'react-router-dom'
 
 const ProsesSurat = () => {
   const [suratData, setSuratData] = useState([])
@@ -76,14 +77,18 @@ const ProsesSurat = () => {
                 <td className='border border-gray-300 p-2'>{surat.keperluanSurat}</td>
                 <td className='border border-gray-300 p-2'> <a href={`http://localhost:3001/${surat.KTP}`} target='_blank' rel='noopener noreferrer' className='text-blue-500 underline hover:text-blue-700'>KTP.pdf</a> </td>
                 <td className='border border-gray-300 p-2'><a href={`http://localhost:3001/${surat.KK}`} target='_blank' rel='noopener noreferrer' className='text-blue-500 underline hover:text-blue-700'>KK.pdf</a></td>
-                <td className='text-center border border-gray-300 p-2'><h1 className={`${surat.status === 'Terkirim'
-                  ? 'bg-primary'
-                  : surat.status === 'Ditolak'
-                  ? 'bg-red-500'
-                  : surat.status === 'Diterima'
-                  ? 'bg-green-500'
-                  : ''
-                } text-white rounded inline-block px-3 py-1`}>{surat.status}</h1></td>
+                <td className='text-center border border-gray-300 p-2'>
+                  <NavLink to={`http://localhost:3000/dashboardadmin/prosessurat/${surat.id}`}>
+                    <h1 className={`${surat.status === 'Terkirim'
+                    ? 'bg-primary'
+                    : surat.status === 'Ditolak'
+                    ? 'bg-red-500'
+                    : surat.status === 'Diterima'
+                    ? 'bg-green-500'
+                    : ''
+                  } text-white rounded inline-block px-3 py-1`}>{surat.status}</h1>
+                  </NavLink>
+                </td>
                 <td className='text-center border border-gray-300 p-2'>{surat.keterangan}</td>
               </tr>
             ))}

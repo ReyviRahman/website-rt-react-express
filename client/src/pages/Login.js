@@ -33,7 +33,7 @@ const Login = () => {
       const profilePic = response.data.profilePic
       setAuth({ nik, nama, role, profilePic })
       if (role === "Admin") {
-        navigate('/dashboardadmin')
+        navigate('/dashboardadmin/admin')
       } else if (role === "User") {
         navigate('/')
       }
