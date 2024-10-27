@@ -26,24 +26,26 @@ const SuratEdit = () => {
       console.log('ini terima surat', terimaSurat)
       if (terimaSurat) {
         statusSurat = "Diterima"
+        
+        
       } else {
         statusSurat = "Ditolak"
+        const response = await axios.put(`${process.env.REACT_APP_API_URL}/surat/detailsurat/${id}`, {
+          status: statusSurat,
+          keterangan,
+        }, {
+          withCredentials: true // Mengirim cookie (jika API membutuhkan cookie)
+        });
+  
+        Swal.fire({
+          icon: 'sucess',
+          title: 'Update Success',
+          text: response.data.message
+        }).then(() => {
+          navigate(-1)
+        })
       }
-
-      const response = await axios.put(`${process.env.REACT_APP_API_URL}/surat/detailsurat/${id}`, {
-        status: statusSurat,
-        keterangan,
-      }, {
-        withCredentials: true // Mengirim cookie (jika API membutuhkan cookie)
-      });
-
-      Swal.fire({
-        icon: 'sucess',
-        title: 'Update Success',
-        text: response.data.message
-      }).then(() => {
-        navigate(-1)
-      })
+      
     } catch (error) {
       Swal.fire({
         icon: 'error',
